@@ -5,26 +5,25 @@ namespace GSM
 {
     public static class Program
     {
+        // GSM-алфавит
+        static string alphabetString = "@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞ\x1bÆæßÉ !\"#¤%&`()*+,-./0123456789:;<=>?"
+                                     + "¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
+
         static void Main(string[] args)
         {
-
+            
         }
 
         //Кодирование
         public static byte[] Encode(string message)
         {
             //Определяем индексы каждого символа сообщения в GSM-алфавите
-            string alphabet = "@£$¥èéùìòÇ\nØø\rÅå" + "Δ_ΦΓΛΩΠΨΣΘΞ\x1bÆæßÉ"
-                            + " !\"#¤%&`()*+,-./" + "0123456789:;<=>?"
-                            + "¡ABCDEFGHIJKLMNO" + "PQRSTUVWXYZÄÖÑÜ§"
-                            + "¿abcdefghijklmno" + "pqrstuvwxyzäöñüà";
-
             char[] message_array = message.ToCharArray();
             byte[] code_array = new byte[message.Length];
 
             for (Byte i = 0; i < message_array.Length; i++)
             {
-                code_array[i] = Convert.ToByte(alphabet.IndexOf(message_array[i]));
+                code_array[i] = Convert.ToByte(alphabetString.IndexOf(message_array[i]));
             }
 
             //Конвертируем в массив бит
@@ -67,11 +66,6 @@ namespace GSM
         //Декодирование
         public static string Decode(byte[] paylod)
         {
-            string alphabet = "@£$¥èéùìòÇ\nØø\rÅå" + "Δ_ΦΓΛΩΠΨΣΘΞ\x1bÆæßÉ"
-                            + " !\"#¤%&`()*+,-./" + "0123456789:;<=>?"
-                            + "¡ABCDEFGHIJKLMNO" + "PQRSTUVWXYZÄÖÑÜ§"
-                            + "¿abcdefghijklmno" + "pqrstuvwxyzäöñüà";
-
             //Конвертируем массив байт в массив бит
             BitArray packed = new BitArray(paylod);
 
@@ -100,7 +94,7 @@ namespace GSM
             string message = "";
             for (int i = 0; i < code_array.Length; i++)
             {
-                message += alphabet[code_array[i]];
+                message += alphabetString[code_array[i]];
             }
 
             return message;
